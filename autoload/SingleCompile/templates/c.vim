@@ -76,8 +76,12 @@ function! SingleCompile#templates#c#Initialize()
                     \'-o$(FILE_TITLE)$', g:SingleCompile_common_run_command)
         call SingleCompile#SetOutfile('c', 'bcc', g:SingleCompile_common_out_file)
     endif
+    " -pthread support thread
+    " -lrt support shm_open, mmap, munmap
+    " -finstrument-functions support call depth
+    " -Wall -g support warning all and debug
     call SingleCompile#SetCompilerTemplate('c', 'gcc', 'GNU C Compiler',
-                \'gcc', '-pthread -lrt -g -o $(FILE_TITLE)$', g:SingleCompile_common_run_command)
+                \'gcc', '-pthread -lrt -g -finstrument-functions -o $(FILE_TITLE)$', g:SingleCompile_common_run_command)
     call SingleCompile#SetCompilerTemplateByDict('c', 'gcc', {
                 \ 'pre-do'  : function('SingleCompile#PredoGcc'),
                 \ 'priority' : 20,
